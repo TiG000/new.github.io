@@ -1,23 +1,20 @@
-name: Build and Serve to Github Pages
+name: mkdocs
 
 on:
   push:
     branches:
       - main
-  
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+
 jobs:
-  docs:
-    name: Build and Serve to Github Pages
+  deploy:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
         with:
-          fetch-depth: 0
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - run: pip install --upgrade pip && pip install -r requirements.txt
-      - run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
-      - name: Publish docs
-        run: mkdocs gh-deploy -f "$(pwd)/mkdocs.yml"
+          python-version: 3.x
+      - run: pip install mkdocs-material
+      - run: mkdocs gh-deploy --force
