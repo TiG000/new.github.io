@@ -1,24 +1,37 @@
-steps:
-      - uses: actions/checkout@v3 # 先checkout到main分支
-        with: 
-          fetch-depth: 0
-      - name: set up python 
-        uses: actions/setup-python@v4 # 再安装Python3和相关环境
-        with:
-          python-version: 3.11
-      - name: install requirement
-        run: pip install mkdocs-material
-      - name: gh-deploy
-        run : |
-          mkdocs build          
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m 'deploy'
-          mkdocs gh-deploy 
-      - name: 推送更改
-        uses:  ad-m/github-push-action@master
-        with:
-          force_with_lease: true
-      - name: mkdocs build
-        run: mkdocs build --clean --strict
+name: mkdocs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+          - uses: actions/checkout@v3 # 先checkout到main分支
+            with: 
+              fetch-depth: 0
+          - name: set up python 
+            uses: actions/setup-python@v4 # 再安装Python3和相关环境
+            with:
+              python-version: 3.11
+          - name: install requirement
+            run: pip install mkdocs-material
+          - name: gh-deploy
+            run : |
+              mkdocs build          
+              git config user.name github-actions
+              git config user.email github-actions@github.com
+              git add .
+              git commit -m 'deploy'
+              mkdocs gh-deploy 
+          - name: 推送更改
+            uses:  ad-m/github-push-action@master
+            with:
+              force_with_lease: true
+          - name: mkdocs build
+            run: mkdocs build --clean --strict
