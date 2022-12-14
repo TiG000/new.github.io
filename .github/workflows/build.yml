@@ -24,7 +24,7 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m 'deploy'
-      - name: 推送更改
+      -- name: 推送更改
         uses:  ad-m/github-push-action@master
         with:
           force_with_lease: true 
