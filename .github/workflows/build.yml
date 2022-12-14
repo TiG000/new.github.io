@@ -27,8 +27,7 @@ jobs: # 工作流的具体内容
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m 'deploy'
-          mkdocs gh-deploy 
+          git commit -m 'deploy'          
       - name: 推送更改
         uses:  ad-m/github-push-action@master
         with:
